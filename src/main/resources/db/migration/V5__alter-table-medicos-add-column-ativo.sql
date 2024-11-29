@@ -1,0 +1,5 @@
+ALTER TABLE medico ADD ativo TINYINT;
+
+UPDATE medico SET ativo = 1;
+
+ALTER TABLE medico MODIFY ativo TINYINT NOT NULL;
