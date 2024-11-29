@@ -1,9 +1,6 @@
 package dev.raniery.med.voll.api.controller;
 
-import dev.raniery.med.voll.api.Medico.CadastroMedico;
-import dev.raniery.med.voll.api.Medico.DadosListaMedico;
-import dev.raniery.med.voll.api.Medico.Medico;
-import dev.raniery.med.voll.api.Medico.MedicoRepository;
+import dev.raniery.med.voll.api.Medico.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +27,12 @@ public class MedicoController {
     @GetMapping
     public Page<DadosListaMedico> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable pageable) {
         return repository.findAll(pageable).map(DadosListaMedico::new);
+    }
+
+    @PutMapping
+    @Transactional
+    public void atualizar(@RequestBody @Valid AtualizaMedico dados) {
+        Medico medico = repository.getReferenceById(dados.id());
+        medico.atualizarMedico(dados);
     }
 }
