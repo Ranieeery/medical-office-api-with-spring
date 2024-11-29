@@ -1,5 +1,6 @@
 package dev.raniery.med.voll.api.controller;
 
+import dev.raniery.med.voll.api.Medico.Medico;
 import dev.raniery.med.voll.api.Paciente.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -24,7 +25,7 @@ public class PacienteController {
 
     @GetMapping
     public Page<DadosListaPaciente> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable pageable) {
-        return repository.findAll(pageable).map(DadosListaPaciente::new);
+        return repository.findAllByAtivoTrue(pageable).map(DadosListaPaciente::new);
     }
 
     @PutMapping
@@ -32,5 +33,12 @@ public class PacienteController {
     public void atualizar(@RequestBody @Valid AtualizaPaciente dados) {
         Paciente paciente = repository.getReferenceById(dados.id());
         paciente.atualizarPaciente(dados);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void excluir(@PathVariable Long id){
+        Paciente paciente = repository.getReferenceById(id);
+        paciente.excluir();
     }
 }
