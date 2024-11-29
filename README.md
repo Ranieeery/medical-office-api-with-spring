@@ -1,58 +1,46 @@
-# Spring API
+# Spring API REST
 
-API Endpoints
+This is a RESTful API for managing medical and patient data. It is built with Spring Boot and connects to a MySQL database.
 
-Post
+## Project Structure
 
-```json
-http://localhost:8080/medicos
-```
+## Technologies
 
-Body
+- Java
+- Spring Boot 3
+- Spring Data JPA
+- Hibernate
+- Maven
+- MySQL
+- Flyway
+- Lombok
 
-```json
-{
-"nome": "Pedro Delesporte",
-"email": "pedro.delsport@med.com",
-"crm": "485713",
-"especialidade": "cardiologia",
-"telefone": "11999999999",
-"endereco": {
-    "logradouro": "rua x",
-    "bairro": "Everett",
-    "cep": "65421231",
-    "cidade": "Massachussets",
-    "uf": "MA"
-    }
-}
-```
+## Prerequisites
 
-Post
+- JDK 23
+- Maven
+- MySQL server running on `localhost:3306` with a database named api
 
-```json
-http://localhost:8080/pacientes
-```
+## Configuration
 
-Body
+Database connection properties are configured in application.properties:
 
-```json
-{
-"nome": "Gabriel Talles",
-"email": "gabriel@gmeil.com",
-"telefone": "10999999999",
-"cpf": "12345678900",
-"endereco": {
-    "logradouro": "rua y",
-    "bairro": "Ceilândia",
-    "cep": "32000000",
-    "cidade": "Brasília",
-    "uf": "DF"
-    }
-}
-```
+- `spring.datasource.url`
+- `spring.datasource.username`
+- `spring.datasource.password`
 
-Get
+## Routes
 
-```json
-http://localhost:8080/medicos?size=10&page=0&sort=nome,desc
-```
+### MedicoController
+
+- `POST /medicos` - Register a new doctor
+- `GET /medicos` - List all active doctors
+- `PUT /medicos` - Update doctor information
+- `DELETE /medicos/{id}` - Delete a doctor by ID
+
+### PacienteController
+
+- `POST /pacientes` - Register a new patient
+- `GET /pacientes` - List all active patients
+- `PUT /pacientes` - Update patient information
+- `DELETE /pacientes/{id}` - Delete a patient by ID
