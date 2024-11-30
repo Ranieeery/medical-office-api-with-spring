@@ -16,6 +16,7 @@ public enum Especialidade {
     DERMATOLOGIA,
     CANCEROLOGIA,
     NEUROLOGIA,
+    PSICOLOGIA,
     PSIQUIATRIA,
     OFTALMOLOGIA,
     UROLOGIA,
