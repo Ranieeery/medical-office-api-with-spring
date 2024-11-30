@@ -1,4 +1,4 @@
-package dev.raniery.med.voll.api.Medico;
+package dev.raniery.med.voll.api.domain.Medico;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;

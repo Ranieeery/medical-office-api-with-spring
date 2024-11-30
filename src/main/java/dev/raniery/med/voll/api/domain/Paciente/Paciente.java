@@ -1,20 +1,20 @@
-package dev.raniery.med.voll.api.Medico;
+package dev.raniery.med.voll.api.domain.Paciente;
 
-import dev.raniery.med.voll.api.dados.Endereco;
+import dev.raniery.med.voll.api.domain.dados.Endereco;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
-import lombok.Getter;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Table(name = "medico")
-@Entity(name = "Medico")
+@Table(name = "paciente")
+@Entity(name = "Paciente")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Medico {
+public class Paciente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,27 +22,23 @@ public class Medico {
     private String nome;
     private String email;
     private String telefone;
-    private String crm;
-
-    @Enumerated(EnumType.STRING)
-    private Especialidade especialidade;
+    private String cpf;
 
     @Embedded
     private Endereco endereco;
 
     private Boolean ativo;
 
-    public Medico(CadastroMedico dados) {
+    public Paciente(CadastroPaciente dados) {
         this.nome = dados.nome();
         this.email = dados.email();
         this.telefone = dados.telefone();
-        this.crm = dados.crm();
-        this.especialidade = dados.especialidade();
+        this.cpf = dados.cpf();
         this.endereco = new Endereco(dados.endereco());
         this.ativo = true;
     }
 
-    public void atualizarMedico(@Valid AtualizaMedico dados) {
+    public void atualizarPaciente(@Valid AtualizaPaciente dados) {
         if (dados.nome() != null) {
             this.nome = dados.nome();
         }

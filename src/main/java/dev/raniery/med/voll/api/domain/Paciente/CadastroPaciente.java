@@ -1,6 +1,6 @@
-package dev.raniery.med.voll.api.Paciente;
+package dev.raniery.med.voll.api.domain.Paciente;
 
-import dev.raniery.med.voll.api.dados.DadosEndereco;
+import dev.raniery.med.voll.api.domain.dados.DadosEndereco;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

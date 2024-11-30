@@ -1,4 +1,4 @@
-package dev.raniery.med.voll.api.Paciente;
+package dev.raniery.med.voll.api.domain.Paciente;
 
 public record DadosListaPaciente(
     Long id,

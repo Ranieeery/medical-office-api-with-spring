@@ -1,6 +1,6 @@
-package dev.raniery.med.voll.api.Medico;
+package dev.raniery.med.voll.api.domain.Medico;
 
-import dev.raniery.med.voll.api.dados.DadosEndereco;
+import dev.raniery.med.voll.api.domain.dados.DadosEndereco;
 import jakarta.validation.constraints.NotNull;
 
 public record AtualizaMedico(

@@ -1,6 +1,6 @@
-package dev.raniery.med.voll.api.Medico;
+package dev.raniery.med.voll.api.domain.Medico;
 
-import dev.raniery.med.voll.api.dados.Endereco;
+import dev.raniery.med.voll.api.domain.dados.Endereco;
 
 public record DadosMedico (
     Long id,

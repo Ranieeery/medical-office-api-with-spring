@@ -1,7 +1,7 @@
-package dev.raniery.med.voll.api.Medico;
+package dev.raniery.med.voll.api.domain.Medico;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import dev.raniery.med.voll.api.dados.DadosEndereco;
+import dev.raniery.med.voll.api.domain.dados.DadosEndereco;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

@@ -1,4 +1,4 @@
-package dev.raniery.med.voll.api.Medico;
+package dev.raniery.med.voll.api.domain.Medico;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

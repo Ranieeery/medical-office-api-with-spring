@@ -1,6 +1,6 @@
 package dev.raniery.med.voll.api.controller;
 
-import dev.raniery.med.voll.api.Paciente.*;
+import dev.raniery.med.voll.api.domain.Paciente.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

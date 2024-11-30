@@ -1,4 +1,4 @@
-package dev.raniery.med.voll.api.dados;
+package dev.raniery.med.voll.api.domain.dados;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
