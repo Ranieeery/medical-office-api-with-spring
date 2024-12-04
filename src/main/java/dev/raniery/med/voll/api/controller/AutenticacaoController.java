@@ -1,5 +1,6 @@
 package dev.raniery.med.voll.api.controller;
 
+import dev.raniery.med.voll.api.infra.Security.TokenService;
 import dev.raniery.med.voll.api.user.DadosAutenticacao;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,14 @@ public class AutenticacaoController {
     @Autowired
     private AuthenticationManager authManager;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping
     public ResponseEntity autenticar(@RequestBody @Valid DadosAutenticacao dados) {
         var token = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
-        Authentication authentication = authManager.authenticate(token);
+        Authentication auth = authManager.authenticate(token);
 
-        return ResponseEntity.ok();
+        return ResponseEntity.ok(tokenService.gerarToken(auth.getPrincipal()));
     }
 }
