@@ -3,10 +3,10 @@ package dev.raniery.med.voll.api.domain.Medico;
 import dev.raniery.med.voll.api.domain.dados.Endereco;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
-import lombok.Getter;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Table(name = "medico")
 @Entity(name = "Medico")
