@@ -1,6 +1,7 @@
 package dev.raniery.med.voll.api.controller;
 
 import dev.raniery.med.voll.api.domain.Paciente.*;
+import dev.raniery.med.voll.api.infra.Security.DadosTokenJWT;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +27,8 @@ public class PacienteController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastro(@RequestBody @Valid CadastroPaciente dados, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<DadosPaciente> cadastro(@RequestBody @Valid CadastroPaciente dados,
+                                                  UriComponentsBuilder uriBuilder) {
         Paciente paciente = new Paciente(dados);
         repository.save(paciente);
 
@@ -36,7 +38,9 @@ public class PacienteController {
     }
 
     @GetMapping
-    public ResponseEntity<PagedModel<EntityModel<DadosListaPaciente>>> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable pageable, PagedResourcesAssembler<DadosListaPaciente> assembler) {
+    public ResponseEntity<PagedModel<EntityModel<DadosListaPaciente>>> listar(
+        @PageableDefault(size = 15, sort = {"nome"}) Pageable pageable,
+        PagedResourcesAssembler<DadosListaPaciente> assembler) {
         var pacientes = repository.findAllByAtivoTrue(pageable).map(DadosListaPaciente::new);
 
         return ResponseEntity.ok(assembler.toModel(pacientes));
@@ -44,7 +48,7 @@ public class PacienteController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity atualizar(@RequestBody @Valid AtualizaPaciente dados) {
+    public ResponseEntity<DadosPaciente> atualizar(@RequestBody @Valid AtualizaPaciente dados) {
         Paciente paciente = repository.getReferenceById(dados.id());
         paciente.atualizarPaciente(dados);
 
@@ -53,7 +57,7 @@ public class PacienteController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity excluir(@PathVariable Long id) {
+    public ResponseEntity<DadosTokenJWT> excluir(@PathVariable Long id) {
         Paciente paciente = repository.getReferenceById(id);
         paciente.excluir();
 

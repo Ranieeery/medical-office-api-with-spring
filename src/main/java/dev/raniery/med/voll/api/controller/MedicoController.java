@@ -1,6 +1,7 @@
 package dev.raniery.med.voll.api.controller;
 
 import dev.raniery.med.voll.api.domain.Medico.*;
+import dev.raniery.med.voll.api.infra.Security.DadosTokenJWT;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +27,7 @@ public class MedicoController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastro(@RequestBody @Valid CadastroMedico dados, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<DadosMedico> cadastro(@RequestBody @Valid CadastroMedico dados, UriComponentsBuilder uriBuilder) {
         Medico medico = new Medico(dados);
         repository.save(medico);
 
@@ -44,7 +45,7 @@ public class MedicoController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity atualizar(@RequestBody @Valid AtualizaMedico dados) {
+    public ResponseEntity<DadosMedico> atualizar(@RequestBody @Valid AtualizaMedico dados) {
         Medico medico = repository.getReferenceById(dados.id());
         medico.atualizarMedico(dados);
 
@@ -54,7 +55,7 @@ public class MedicoController {
     //  Exclusão lógica
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity excluir(@PathVariable Long id) {
+    public ResponseEntity<DadosTokenJWT> excluir(@PathVariable Long id) {
         Medico medico = repository.getReferenceById(id);
         medico.excluir();
 
