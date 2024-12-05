@@ -18,9 +18,7 @@ public class SecurityConfigurations {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf(AbstractHttpConfigurer::disable).sessionManagement(sm -> {
-            sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        }).build();
+        return http.csrf(AbstractHttpConfigurer::disable).sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeHttpRequests(req -> req.requestMatchers("/login").permitAll().anyRequest().authenticated()).build();
     }
 
     @Bean

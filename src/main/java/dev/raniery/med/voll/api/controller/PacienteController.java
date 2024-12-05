@@ -4,9 +4,11 @@ import dev.raniery.med.voll.api.domain.Paciente.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -32,8 +34,10 @@ public class PacienteController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<DadosListaPaciente>> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable pageable) {
-        return ResponseEntity.ok(repository.findAllByAtivoTrue(pageable).map(DadosListaPaciente::new));
+    public ResponseEntity<PagedModel<EntityModel<DadosListaPaciente>>> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable pageable, PagedResourcesAssembler<DadosListaPaciente> assembler) {
+        var pacientes = repository.findAllByAtivoTrue(pageable).map(DadosListaPaciente::new);
+
+        return ResponseEntity.ok(assembler.toModel(pacientes));
     }
 
     @PutMapping

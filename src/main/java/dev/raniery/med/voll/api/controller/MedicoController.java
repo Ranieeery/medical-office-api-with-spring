@@ -4,9 +4,11 @@ import dev.raniery.med.voll.api.domain.Medico.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -32,8 +34,10 @@ public class MedicoController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<DadosListaMedico>> listar(@PageableDefault(sort = {"nome"}) Pageable pageable) {
-        return ResponseEntity.ok(repository.findAllByAtivoTrue(pageable).map(DadosListaMedico::new));
+    public ResponseEntity<PagedModel<EntityModel<DadosListaMedico>>> listar(@PageableDefault(sort = {"nome"}) Pageable pageable, PagedResourcesAssembler<DadosListaMedico> assembler) {
+        var medicos = repository.findAllByAtivoTrue(pageable).map(DadosListaMedico::new);
+
+        return ResponseEntity.ok(assembler.toModel(medicos));
     }
 
     @PutMapping
