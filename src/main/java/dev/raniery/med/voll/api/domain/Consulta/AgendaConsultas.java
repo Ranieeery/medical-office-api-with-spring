@@ -4,7 +4,7 @@ import dev.raniery.med.voll.api.domain.Medico.Medico;
 import dev.raniery.med.voll.api.domain.Medico.MedicoRepository;
 import dev.raniery.med.voll.api.domain.Paciente.Paciente;
 import dev.raniery.med.voll.api.domain.Paciente.PacienteRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import dev.raniery.med.voll.api.infra.Exception.ValidacaoException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,11 +23,31 @@ public class AgendaConsultas {
     }
 
     public void agendarConsulta(DadosAgendamentoConsulta dados) {
-        Paciente paciente = pacienteRepository.findById(dados.idPaciente);
-        Medico medico = medicoRepository.findById(dados.idMedico);
 
-        var consulta = new Consulta(null, medico, paciente, dados.data());
+        if (!pacienteRepository.existsById(dados.idPaciente())) {
+            throw new ValidacaoException("ID informado não corresponde a um paciente existente");
+        }
 
-        consultaRepository.save(dados);
+        if (dados.idMedico() != null && !medicoRepository.existsById(dados.idMedico())) {
+            throw new ValidacaoException("ID informado não corresponde a um médico existente");
+        }
+
+        Paciente paciente = pacienteRepository.getReferenceById(dados.idPaciente());
+        Medico medico = escolherMedico(dados);
+        Consulta consulta = new Consulta(null, medico, paciente, dados.data());
+
+        consultaRepository.save(consulta);
+    }
+
+    private Medico escolherMedico(DadosAgendamentoConsulta dados) {
+        if (dados.idMedico() != null) {
+            return medicoRepository.getReferenceById(dados.idMedico());
+        }
+
+        if (dados.especialidade() == null) {
+            throw new ValidacaoException("Especialidade é obrigatória quando não é informado o ID do médico");
+        }
+
+        return medicoRepository.escolherMedicoPorEspecialidade(dados.especialidade(), dados.data());
     }
 }
