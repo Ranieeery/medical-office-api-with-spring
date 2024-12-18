@@ -1,6 +1,6 @@
 package dev.raniery.med.voll.api.domain.Paciente;
 
-import dev.raniery.med.voll.api.domain.dados.Endereco;
+import dev.raniery.med.voll.api.domain.Dados.Endereco;
 
 public record DadosPaciente(
     Long id,

@@ -1,6 +1,6 @@
 package dev.raniery.med.voll.api.domain.Medico;
 
-import dev.raniery.med.voll.api.domain.dados.Endereco;
+import dev.raniery.med.voll.api.domain.Dados.Endereco;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

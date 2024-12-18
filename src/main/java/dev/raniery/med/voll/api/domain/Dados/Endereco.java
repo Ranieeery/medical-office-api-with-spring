@@ -1,4 +1,4 @@
-package dev.raniery.med.voll.api.domain.dados;
+package dev.raniery.med.voll.api.domain.Dados;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
