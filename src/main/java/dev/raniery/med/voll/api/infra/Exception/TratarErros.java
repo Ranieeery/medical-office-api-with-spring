@@ -24,6 +24,11 @@ public class TratarErros {
         return ResponseEntity.badRequest().body((e.getFieldErrors()).stream().map(erro -> new Erro(erro.getField(), erro.getDefaultMessage())));
     }
 
+    @ExceptionHandler(ValidacaoException.class)
+    public ResponseEntity<Object> erroRegraDeNegocio(ValidacaoException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
     public record Erro(String campo, String mensagem) {
 
     }

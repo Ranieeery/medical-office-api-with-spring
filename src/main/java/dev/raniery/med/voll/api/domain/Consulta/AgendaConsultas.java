@@ -43,6 +43,11 @@ public class AgendaConsultas {
 
         Paciente paciente = pacienteRepository.getReferenceById(dados.idPaciente());
         Medico medico = escolherMedico(dados);
+
+        if (medico == null) {
+            throw new ValidacaoException("Não foi possível encontrar um médico disponível para a especialidade e data informadas");
+        }
+
         Consulta consulta = new Consulta(null, medico, paciente, dados.data());
 
         consultaRepository.save(consulta);

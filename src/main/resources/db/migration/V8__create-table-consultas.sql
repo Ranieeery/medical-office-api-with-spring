@@ -1,4 +1,4 @@
-CREATE TABLE consultas
+CREATE TABLE consulta
 (
     id          BIGINT   NOT NULL AUTO_INCREMENT PRIMARY KEY,
     medico_id   BIGINT   NOT NULL,
