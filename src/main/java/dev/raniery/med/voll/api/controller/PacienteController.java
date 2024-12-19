@@ -2,6 +2,7 @@ package dev.raniery.med.voll.api.controller;
 
 import dev.raniery.med.voll.api.domain.Paciente.*;
 import dev.raniery.med.voll.api.infra.Security.DadosTokenJWT;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/pacientes")
+@SecurityRequirement(name = "bearer-key")
 public class PacienteController {
 
     private final PacienteRepository repository;
