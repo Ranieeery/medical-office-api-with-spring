@@ -3,15 +3,21 @@ package dev.raniery.med.voll.api.domain.Consulta.Validacoes;
 import dev.raniery.med.voll.api.domain.Consulta.DadosAgendamentoConsulta;
 import dev.raniery.med.voll.api.domain.Paciente.PacienteRepository;
 import dev.raniery.med.voll.api.infra.Exception.ValidacaoException;
+import org.springframework.stereotype.Component;
 
-public class ValidacaoPacienteAtivo {
+@Component
+public class ValidacaoPacienteAtivo implements ValidacaoAgendamentoConsulta {
 
-    private PacienteRepository repository;
+    private final PacienteRepository repository;
 
-    public void validarPacienteAtivo(DadosAgendamentoConsulta dados) {
+    public ValidacaoPacienteAtivo(PacienteRepository repository) {
+        this.repository = repository;
+    }
+
+    public void validar(DadosAgendamentoConsulta dados) {
         boolean pacienteAtivo = repository.findAtivoById(dados.idPaciente());
 
-        if(!pacienteAtivo) {
+        if (!pacienteAtivo) {
             throw new ValidacaoException("Paciente inativo, não é possível agendar consulta");
         }
     }

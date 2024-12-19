@@ -2,12 +2,15 @@ package dev.raniery.med.voll.api.domain.Consulta.Validacoes;
 
 import dev.raniery.med.voll.api.domain.Consulta.DadosAgendamentoConsulta;
 import dev.raniery.med.voll.api.infra.Exception.ValidacaoException;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class ValidacaoHorarioAntecedencia {
-    public void validarHorarioAntecedencia(DadosAgendamentoConsulta dados) {
+@Component
+public class ValidacaoHorarioAntecedencia implements ValidacaoAgendamentoConsulta {
+
+    public void validar(DadosAgendamentoConsulta dados) {
         LocalDateTime dataConsulta = dados.data();
         LocalDateTime dataAtual = LocalDateTime.now();
         long diferencaData = Duration.between(dataAtual, dataConsulta).toMinutes();

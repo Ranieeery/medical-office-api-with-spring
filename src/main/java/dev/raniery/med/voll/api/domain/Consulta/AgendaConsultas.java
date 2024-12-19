@@ -1,11 +1,15 @@
 package dev.raniery.med.voll.api.domain.Consulta;
 
+import dev.raniery.med.voll.api.domain.Consulta.Validacoes.ValidacaoAgendamentoConsulta;
 import dev.raniery.med.voll.api.domain.Medico.Medico;
 import dev.raniery.med.voll.api.domain.Medico.MedicoRepository;
 import dev.raniery.med.voll.api.domain.Paciente.Paciente;
 import dev.raniery.med.voll.api.domain.Paciente.PacienteRepository;
 import dev.raniery.med.voll.api.infra.Exception.ValidacaoException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AgendaConsultas {
@@ -16,13 +20,16 @@ public class AgendaConsultas {
 
     private final PacienteRepository pacienteRepository;
 
-    public AgendaConsultas(ConsultaRepository consultaRepository, MedicoRepository medicoRepository, PacienteRepository pacienteRepository) {
+    private final List<ValidacaoAgendamentoConsulta> validacoes;
+
+    public AgendaConsultas(ConsultaRepository consultaRepository, MedicoRepository medicoRepository, PacienteRepository pacienteRepository, List<ValidacaoAgendamentoConsulta> validacoes) {
         this.consultaRepository = consultaRepository;
         this.medicoRepository = medicoRepository;
         this.pacienteRepository = pacienteRepository;
+        this.validacoes = validacoes;
     }
 
-    public void agendarConsulta(DadosAgendamentoConsulta dados) {
+    public DadosDetalhamentoConsulta agendarConsulta(DadosAgendamentoConsulta dados) {
 
         if (!pacienteRepository.existsById(dados.idPaciente())) {
             throw new ValidacaoException("ID informado não corresponde a um paciente existente");
@@ -32,11 +39,16 @@ public class AgendaConsultas {
             throw new ValidacaoException("ID informado não corresponde a um médico existente");
         }
 
+        validacoes.forEach(v -> v.validar(dados));
+
         Paciente paciente = pacienteRepository.getReferenceById(dados.idPaciente());
         Medico medico = escolherMedico(dados);
         Consulta consulta = new Consulta(null, medico, paciente, dados.data());
 
         consultaRepository.save(consulta);
+
+
+        return new DadosDetalhamentoConsulta(consulta);
     }
 
     private Medico escolherMedico(DadosAgendamentoConsulta dados) {

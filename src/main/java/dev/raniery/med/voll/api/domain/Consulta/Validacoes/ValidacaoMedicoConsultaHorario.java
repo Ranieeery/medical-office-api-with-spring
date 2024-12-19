@@ -3,15 +3,21 @@ package dev.raniery.med.voll.api.domain.Consulta.Validacoes;
 import dev.raniery.med.voll.api.domain.Consulta.ConsultaRepository;
 import dev.raniery.med.voll.api.domain.Consulta.DadosAgendamentoConsulta;
 import dev.raniery.med.voll.api.infra.Exception.ValidacaoException;
+import org.springframework.stereotype.Component;
 
-public class ValidacaoMedicoConsultaHorario {
+@Component
+public class ValidacaoMedicoConsultaHorario implements ValidacaoAgendamentoConsulta {
 
-    private ConsultaRepository repository;
+    private final ConsultaRepository repository;
 
-    public void validarMedicoConsultaHorario(DadosAgendamentoConsulta dados) {
+    public ValidacaoMedicoConsultaHorario(ConsultaRepository repository) {
+        this.repository = repository;
+    }
+
+    public void validar(DadosAgendamentoConsulta dados) {
         boolean medicoConsultaHorario = repository.existsByIdAndData(dados.idMedico(), dados.data());
 
-        if(medicoConsultaHorario) {
+        if (medicoConsultaHorario) {
             throw new ValidacaoException("Médico já possui consulta marcada para o horário");
         }
     }
