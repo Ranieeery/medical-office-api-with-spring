@@ -3,7 +3,6 @@ package dev.raniery.med.voll.api.domain.Medico;
 import dev.raniery.med.voll.api.domain.Consulta.Consulta;
 import dev.raniery.med.voll.api.domain.Dados.DadosEndereco;
 import dev.raniery.med.voll.api.domain.Paciente.CadastroPaciente;
-import dev.raniery.med.voll.api.domain.Paciente.DadosPaciente;
 import dev.raniery.med.voll.api.domain.Paciente.Paciente;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,11 +31,35 @@ class MedicoRepositoryTest {
     private TestEntityManager em;
 
     @Test
-    @DisplayName("Deve retornar null único médico por especialidade não estiver disponível na data")
+    @DisplayName("Deve retornar null se o único médico por especialidade não estiver disponível na data")
     void escolherMedicoAleatorioPorEspecialidade() {
-        LocalDateTime proximaSegunda10Horas = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY)).atTime(10, 0);
-        Medico medico = medicoRepository.escolherMedicoPorEspecialidade(Especialidade.PSICOLOGIA, proximaSegunda10Horas);
-        assertThat(medico).isNull();
+        //Given/Arrange
+        var proximaSegunda10Horas = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY)).atTime(10, 0);
+
+        var medico = cadastrarMedico("Dr. Fulano", "fulano@med.com", "123456", Especialidade.PEDIATRIA);
+        var paciente = cadastrarPaciente("Fulano", "paciente@test.com", "12345678901");
+
+        //When/Act
+        cadastrarConsulta(medico, paciente, proximaSegunda10Horas);
+
+        //Then/Assert
+        var medicoDisponivel = medicoRepository.escolherMedicoPorEspecialidade(Especialidade.PEDIATRIA, proximaSegunda10Horas);
+        assertThat(medicoDisponivel).isNull();
+    }
+
+    @Test
+    @DisplayName("Deve retornar medico quando estiver disponível na data")
+    void escolherMedicoDisponivelData() {
+        //Given/Arrange
+        var proximaSegunda10Horas = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY)).atTime(10, 0);
+
+        var medico = cadastrarMedico("Dr. Fulano", "fulano@med.com", "123456", Especialidade.PEDIATRIA);
+
+        //When/Act
+        var medicoDisponivel = medicoRepository.escolherMedicoPorEspecialidade(Especialidade.PEDIATRIA, proximaSegunda10Horas);
+
+        //Then/Assert
+        assertThat(medicoDisponivel).isEqualTo(medico);
     }
 
     private void cadastrarConsulta(Medico medico, Paciente paciente, LocalDateTime data) {
@@ -67,7 +90,7 @@ class MedicoRepositoryTest {
     }
 
     private CadastroPaciente dadosPaciente(String nome, String email, String cpf) {
-        return new DadosPaciente(
+        return new CadastroPaciente(
             nome,
             email,
             "61999999999",
