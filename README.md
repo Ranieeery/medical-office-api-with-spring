@@ -1,10 +1,25 @@
 # Spring API REST
 
-This is a RESTful API for managing medical and patient data. It is built with Spring Boot and connects to a MySQL database.
+API Rest para gerenciamento de consultório médico desenvolvida com Spring Boot e MySQL.
 
-## Project Structure
+## Estrutura do Projeto
 
-## Technologies
+```a
+src/
+├── main/
+│   ├── java/
+│   │   └── dev/raniery/med/voll/api/
+│   │       ├── controller/
+│   │       ├── domain/
+│   │       └── infra/
+│   │       └── user/
+│   └── resources/
+│       └── db/migration/
+└── test/
+    └── java/
+```
+
+## Tecnologias
 
 - Java
 - Spring Boot 3
@@ -14,33 +29,62 @@ This is a RESTful API for managing medical and patient data. It is built with Sp
 - MySQL
 - Flyway
 - Lombok
+- JUnit
+- Mockito
 
-## Prerequisites
+## Pré-requisitos
 
 - JDK 23
 - Maven
-- MySQL server running on `localhost:3306` with a database named api
+- MySQL rodando na porta 3306 com banco de dados
 
-## Configuration
+## Configuração
 
-Database connection properties are configured in application.properties:
+Propriedades de conexão com banco de dados em `application.properties`:
 
 - `spring.datasource.url`
 - `spring.datasource.username`
 - `spring.datasource.password`
 
-## Routes
+## Rotas
 
-### MedicoController
+### Médicos
 
-- `POST /medicos` - Register a new doctor
-- `GET /medicos` - List all active doctors
-- `PUT /medicos` - Update doctor information
-- `DELETE /medicos/{id}` - Delete a doctor by ID
+- `POST /medicos` - Cadastrar novo médico
+- `GET /medicos` - Listar médicos ativos
+- `PUT /medicos` - Atualizar dados do médico
+- `DELETE /medicos/{id}` - Excluir médico
 
-### PacienteController
+### Pacientes
 
-- `POST /pacientes` - Register a new patient
-- `GET /pacientes` - List all active patients
-- `PUT /pacientes` - Update patient information
-- `DELETE /pacientes/{id}` - Delete a patient by ID
+- `POST /pacientes` - Cadastrar novo paciente
+- `GET /pacientes` - Listar pacientes ativos
+- `PUT /pacientes` - Atualizar dados do paciente
+- `DELETE /pacientes/{id}` - Excluir paciente
+
+### Consultas
+
+- `POST /consultas` - Agendar consulta
+
+### Autenticação
+
+- `POST /login` - Login para obter token JWT
+
+## Documentação
+
+A documentação completa da API pode ser acessada em `/swagger-ui.html` após iniciar a aplicação.
+
+## Segurança
+
+- Autenticação via JWT Token
+- Endpoints protegidos necessitam do header Authorization: Bearer {token}
+
+## Deploy
+
+```shell
+mvn package -f pom.xml
+```
+
+```shell
+java "-Dspring.profiles.active=prod" "-DDATABASE_URL=" "-DDATABASE_USERNAME=" "-DDATABASE_PASSWORD=" -jar API-0.0.1-SNAPSHOT.jar
+```
