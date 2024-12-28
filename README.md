@@ -1,27 +1,27 @@
-# Spring API REST
+# Medical Clinic API
 
-API Rest para gerenciamento de consultório médico desenvolvida com Spring Boot e MySQL.
+[Read this in Portuguese](README.pt-BR.md)
 
-## Estrutura do Projeto
+A REST API for medical clinic management built with Spring Boot and MySQL.
 
-```a
-src/
-├── main/
-│   ├── java/
-│   │   └── dev/raniery/med/voll/api/
-│   │       ├── controller/
-│   │       ├── domain/
-│   │       └── infra/
-│   │       └── user/
-│   └── resources/
-│       └── db/migration/
-└── test/
-    └── java/
-```
+## Project Overview
 
-## Tecnologias
+This API provides endpoints for managing doctors, patients, and appointments in a medical clinic system, featuring JWT authentication and complete CRUD operations.
 
-- Java
+## Features
+
+- JWT Authentication
+- Doctor management
+- Patient records
+- Appointment scheduling
+- Input validation
+- Error handling
+- MySQL integration
+- Flyway migrations
+
+## Tech Stack
+
+- Java 23
 - Spring Boot 3
 - Spring Data JPA
 - Hibernate
@@ -32,58 +32,111 @@ src/
 - JUnit
 - Mockito
 
-## Pré-requisitos
+## Prerequisites
 
 - JDK 23
-- Maven
-- MySQL rodando na porta 3306 com banco de dados
+- Maven 3.8+
+- MySQL 8.0+ Server running on port 3306
+- Database created
 
-## Configuração
+## Getting Started
 
-Propriedades de conexão com banco de dados em `application.properties`:
+1. Clone the repository
 
-- `spring.datasource.url`
-- `spring.datasource.username`
-- `spring.datasource.password`
+2. Create database:
 
-## Rotas
+```shell
+CREATE DATABASE api;
+CREATE DATABASE api_test;
+```
 
-### Médicos
+3. Configure database properties in `application.properties`:
 
-- `POST /medicos` - Cadastrar novo médico
-- `GET /medicos` - Listar médicos ativos
-- `PUT /medicos` - Atualizar dados do médico
-- `DELETE /medicos/{id}` - Excluir médico
+```properties
+   spring.datasource.url=
+   spring.datasource.username=
+   spring.datasource.password=
+```
 
-### Pacientes
+4. Build the project:
 
-- `POST /pacientes` - Cadastrar novo paciente
-- `GET /pacientes` - Listar pacientes ativos
-- `PUT /pacientes` - Atualizar dados do paciente
-- `DELETE /pacientes/{id}` - Excluir paciente
+```shell
+mvn clean install
+```
 
-### Consultas
+5. Run the application:
 
-- `POST /consultas` - Agendar consulta
+```shell
+mvn spring-boot:run
+```
 
-### Autenticação
+## Documentation
 
-- `POST /login` - Login para obter token JWT
+Full API documentation is available at /swagger-ui.html when the application is running.
 
-## Documentação
+### Main Endpoints
 
-A documentação completa da API pode ser acessada em `/swagger-ui.html` após iniciar a aplicação.
+#### Authentication
 
-## Segurança
+- `POST /login` - Login to obtain JWT token
 
-- Autenticação via JWT Token
-- Endpoints protegidos necessitam do header Authorization: Bearer {token}
+#### Doctors
 
-## Deploy
+- `POST /medicos` - Register new doctor
+- `GET /medicos` - List active doctors
+- `PUT /medicos` - Update doctor info
+- `DELETE /medicos/{id}` - Delete doctor
+
+#### Patients
+
+- `POST /pacientes` - Register new patient
+- `GET /pacientes` - List active patients
+- `PUT /pacientes` - Update patient info
+- `DELETE /pacientes/{id}` - Delete patient
+
+#### Appointments
+
+- `POST /consultas` - Schedule appointment
+
+### Security
+
+- JWT Token authentication
+- Protected endpoints require Authorization header: `Bearer {token}`
+
+## Project Structure
+
+```structure
+src/
+├── main/
+│   ├── java/
+│   │   └── dev/raniery/med/voll/api/
+│   │       ├── controller/
+│   │       ├── domain/
+│   │       ├── infra/
+│   │       └── user/
+│   └── resources/
+│       └── db/migration/
+└── test/
+    └── java/
+```
+
+## Tests
+
+Run tests with:
+
+```shell
+mvn test
+```
+
+## Deployment
+
+1. Build the project:
 
 ```shell
 mvn package -f pom.xml
 ```
+
+2. Run the application:
 
 ```shell
 java "-Dspring.profiles.active=prod" "-DDATABASE_URL=" "-DDATABASE_USERNAME=" "-DDATABASE_PASSWORD=" -jar API-0.0.1-SNAPSHOT.jar
